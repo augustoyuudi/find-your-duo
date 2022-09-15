@@ -32,6 +32,6 @@ if __name__ == '__main__':
   for game in games:
     adsUrl = f'http://localhost:3333/games/{game["id"]}/ads'
 
-    for i in range(5):
+    for i in range(randrange(6)):
       generatedAd = requests.post(adsUrl, json = generateAd())
       print(generatedAd.json())
