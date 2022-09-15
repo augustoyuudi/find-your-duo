@@ -11,6 +11,19 @@ app.use(cors())
 
 const prisma = new PrismaClient()
 
+app.post('/game', async (request, response) => {
+  const { title, bannerUrl } = request.body
+
+  const game = await prisma.game.create({
+    data: {
+      title,
+      bannerUrl
+    }
+  })
+
+  return response.status(201).json(game)
+})
+
 app.get('/games', async (request, response) => {
   const games = await prisma.game.findMany({
     include: {
@@ -26,8 +39,8 @@ app.get('/games', async (request, response) => {
 });
 
 app.post('/games/:id/ads', async (request, response) => {
-  const gameId = request.params.id;
-  const { name, yearsPlaying, discord, weekDays, startHour, endHour, useVoiceChannel } = request.body;
+  const gameId = request.params.id
+  const { name, yearsPlaying, discord, weekDays, startHour, endHour, useVoiceChannel } = request.body
 
   const ad = await prisma.ad.create({
     data: {
