@@ -8,6 +8,7 @@ import logoImg from '../../assets/logo-nlw-esports.png'
 import { GameRouteParams } from '../../@types/navigation'
 import { Background } from '../../components/Background'
 import { Heading } from '../../components/Heading'
+import { Ad } from '../../components/Ad'
 
 export function Game() {
   const navigation = useNavigation()
@@ -42,6 +43,8 @@ export function Game() {
         />
 
         <Heading title={game.title} subtitle='Conecte-se e comece a jogar!' />
+
+        <Ad />
       </SafeAreaView>
     </Background>
   )
