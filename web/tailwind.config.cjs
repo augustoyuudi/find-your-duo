@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
   content: [
     './src/**/*.tsx',
@@ -17,5 +20,9 @@ module.exports = {
       sans: ['Inter', 'sans-serif']
     }
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addVariant }) => {
+      addVariant('select-placeholder', '&[data-placeholder]')
+    })
+  ],
 }
