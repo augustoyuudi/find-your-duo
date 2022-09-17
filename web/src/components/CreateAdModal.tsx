@@ -15,8 +15,6 @@ interface Game {
 }
 
 export function CreateAdModal({ games }: Props) {
-  const [hasSelectedGame, setHasSelectedGame] = useState(false)
-
   return (
     <Dialog.Portal>
       <Dialog.Overlay className='bg-black/60 inset-0 fixed' />
@@ -27,9 +25,7 @@ export function CreateAdModal({ games }: Props) {
         <form className='mt-8 flex flex-col gap-4'>
           <fieldset className='flex flex-col gap-2'>
             <label htmlFor="game">Qual o game?</label>
-            <Select.Root
-              onValueChange={() => setHasSelectedGame(true)}
-            >
+            <Select.Root>
               <Select.Trigger
                 className={`
                   flex
