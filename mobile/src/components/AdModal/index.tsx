@@ -1,4 +1,6 @@
-import { View, Modal, ModalProps, Text, TouchableOpacity } from 'react-native'
+import { useState } from 'react'
+import { View, Modal, ModalProps, Text, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
+import * as Clipboard from 'expo-clipboard'
 import { MaterialIcons } from '@expo/vector-icons'
 import { CheckCircle } from 'phosphor-react-native'
 import { THEME } from '../../theme';
@@ -11,6 +13,17 @@ interface Props extends ModalProps {
 }
 
 export function AdModal({ discord, onClose, ...rest }: Props) {
+  const [isCopyingDiscord, setIsCopyingDiscord] = useState(false)
+
+  async function copyDiscordToClipboard() {
+    setIsCopyingDiscord(true)
+
+    await Clipboard.setStringAsync(discord)
+    Alert.alert('Discord copiado!', 'Usuário copiado para você colar no Discord.')
+
+    setIsCopyingDiscord(false)
+  }
+
   return (
     <Modal
       animationType='fade'
@@ -40,9 +53,13 @@ export function AdModal({ discord, onClose, ...rest }: Props) {
           <Text style={styles.label}>
             Adicione no Discord
           </Text>
-          <TouchableOpacity style={styles.discordButton}>
+          <TouchableOpacity
+            style={styles.discordButton}
+            disabled={isCopyingDiscord}
+            onPress={() => copyDiscordToClipboard()}
+          >
             <Text style={styles.discord}>
-              {discord}
+              {isCopyingDiscord ? <ActivityIndicator color={THEME.COLORS.PRIMARY} /> : discord}
             </Text>
           </TouchableOpacity>
         </View>
