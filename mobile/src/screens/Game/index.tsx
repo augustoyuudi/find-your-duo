@@ -10,17 +10,25 @@ import { GameRouteParams } from '../../@types/navigation'
 import { Background } from '../../components/Background'
 import { Heading } from '../../components/Heading'
 import { Ad, IAd } from '../../components/Ad'
+import { AdModal } from '../../components/AdModal'
 
 export function Game() {
   const navigation = useNavigation()
   const route = useRoute()
   const game = route.params as GameRouteParams
+  const [ads, setAds] = useState<IAd[]>([])
+  const [selectedAd, setSelectedAd] = useState('')
 
   function returnToPreviousView() {
     navigation.goBack()
   }
 
-  const [ads, setAds] = useState<IAd[]>([])
+  function getDiscordByAdId(id: string) {
+    fetch(`http://192.168.1.3:3333/ads/${id}/discord`)
+      .then(response => response.json())
+      .then(data => setSelectedAd(data.discord))
+  }
+
   useEffect(() => {
     fetch(`http://192.168.1.3:3333/games/${game.id}/ads`)
       .then(response => response.json())
@@ -56,7 +64,7 @@ export function Game() {
           data={ads}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <Ad data={item} onConnect={() => {}} />
+            <Ad data={item} onConnect={() => getDiscordByAdId(item.id)} />
           )}
           horizontal
           style={styles.ads}
@@ -69,6 +77,12 @@ export function Game() {
               Não há anúncios publicados ainda.
             </Text>
           )}
+        />
+
+        <AdModal
+          discord={selectedAd}
+          visible={selectedAd.length > 0}
+          onClose={() => setSelectedAd('')}
         />
       </SafeAreaView>
     </Background>

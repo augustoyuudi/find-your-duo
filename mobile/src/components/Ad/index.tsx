@@ -41,7 +41,7 @@ export function Ad({ data, onConnect }: Props) {
       />
       <TouchableOpacity
         style={styles.button}
-        onPress={onConnect}
+        onPress={() => onConnect()}
       >
         <GameController
           color={THEME.COLORS.TEXT}
